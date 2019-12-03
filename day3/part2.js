@@ -4,12 +4,14 @@ function draw(op, lastResult) {
   let result = []
   let startPoint = {
     x: 0,
-    y: 0
+    y: 0,
+    step: 0
   }
   if (lastResult.length > 0) {
     startPoint = {
       x: lastResult[lastResult.length - 1].x,
-      y: lastResult[lastResult.length - 1].y
+      y: lastResult[lastResult.length - 1].y,
+      step: lastResult[lastResult.length - 1].step
     }
   } else {
     result.push(startPoint)
@@ -18,7 +20,8 @@ function draw(op, lastResult) {
   for(i = 0;i < count;i ++) {
     let point = {
       x: startPoint.x,
-      y: startPoint.y
+      y: startPoint.y,
+      step: startPoint.step + i + 1
     }
     if (op[0] === 'R') {
       point.x += i + 1
@@ -50,12 +53,14 @@ function main() {
   const input2 = inputLine[1].toString().split(",")
   const wire1 = findDistance(input1, [], 0)
   const wire2 = findDistance(input2, [], 0)
-  const crossedPoint = res = wire1.filter((item) => {
-    return wire2.find((item2) => item.x === item2.x && item.y === item2.y)
-  }).filter((item) => item.x !== 0 && item.y !== 0)
-  const distances = crossedPoint.map((item) => Math.abs(item.x) + Math.abs(item.y))
-  console.log(crossedPoint)
-  console.log(distances)
+  console.log('done')
+  wire1.filter((item) => {
+    let result = wire2.find((item2) => item.x === item2.x && item.y === item2.y)
+    if (result) {
+      console.log(parseInt(result.step) + parseInt(item.step))
+    }
+    return result
+  })
 }
 
 main()
